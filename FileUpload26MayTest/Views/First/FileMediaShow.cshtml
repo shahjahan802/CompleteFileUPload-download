@@ -1,0 +1,51 @@
+﻿    @model IEnumerable<FileUpload26MayTest.Models.FormTable>
+
+    @{
+        ViewData["Title"] = "FileMediaShow";
+    }
+
+    <h2>FileMediaShow</h2>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PhoneNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FilePath)
+                    </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+           
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNo)
+                </td>
+           
+                <td>
+                   <img src="@item.FilePath" class="img-circle" />
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>

@@ -28,7 +28,9 @@ namespace FileUpload26MayTest
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddDbContext<firstonlinedbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Con")));
+          
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

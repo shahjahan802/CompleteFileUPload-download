@@ -11,7 +11,8 @@ namespace FileUpload26MayTest.Models
         public decimal? PhoneNo { get; set; }
         public string FilePath { get; set; }
         public string FileDownload { get; set; }
-      
-       
+        public string  Email { get; set; }
+
+
     }
 }

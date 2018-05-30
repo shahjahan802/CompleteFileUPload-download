@@ -24,7 +24,8 @@ namespace FileUpload26MayTest.Models
             modelBuilder.Entity<FormTable>(entity =>
             {
                 entity.Property(e => e.Address).HasMaxLength(50);
-                entity.Property(e => e.Name).HasMaxLength(50);            
+                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Email).HasMaxLength(50);            
                 entity.Property(e => e.FilePath).HasMaxLength(250);
                 entity.Property(e => e.FileDownload).HasMaxLength(250);        
                 entity.Property(e => e.PhoneNo).HasColumnType("numeric(18, 0)");

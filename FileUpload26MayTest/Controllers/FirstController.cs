@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using MimeSharp;
+using System.Net.Mail;
 
 namespace FileUpload26MayTest.Controllers
 {
@@ -47,18 +48,44 @@ namespace FileUpload26MayTest.Controllers
                     ViewBag.Message = "media file successful save path in online database";
                 }
             }
+            if (FileDownload != null)
+            {
+                string extention = Path.GetExtension(FileDownload.FileName);
+                string filenewname = DateTime.Now.ToString("ddmmyyyyhhmmsstt") + "dld";
+                string finalpath = "/fpicpath/" + filenewname + extention;
+                FileStream FN = new FileStream(IHEN.WebRootPath + finalpath, FileMode.Create);
+                FileDownload.CopyTo(FN);
+                FN.Close();
+                f.FileDownload = finalpath;
+                ViewBag.Message = "media file successful save path in online database";
 
-               if (FileDownload != null)
+                try
                 {
-                    string extention = Path.GetExtension(FileDownload.FileName);
-                    string filenewname = DateTime.Now.ToString("ddmmyyyyhhmmsstt") + "dld";
-                    string finalpath ="/fpicpath/" + filenewname + extention;
-                    FileStream FN = new FileStream(IHEN.WebRootPath + finalpath, FileMode.Create);
-                    FileDownload.CopyTo(FN);
-                    FN.Close();
-                    f.FileDownload = finalpath;
-                    ViewBag.Message = "media file successful save path in online database";
+                    //Email flow ............write Here.......
+                    MailMessage oEmial = new MailMessage();
+                    oEmial.To.Add(f.Email);
+                    oEmial.From = new MailAddress("shahjahanblouch@mail.com");
+                    oEmial.Bcc.Add("shahjahan7868@outlook.com");
+                    oEmial.Subject = "CV this is the  subject of EMAIL" + f.Name;
+                    oEmial.Body = "THIS IS THE Body of Email " + f.Name;
+
+                    oEmial.Attachments.Add(new Attachment(IHEN.WebRootPath + finalpath));
+                    
+                    //SMTPClind.......Servie use for Email sending.......
+                    SmtpClient oSmtp = new SmtpClient();
+                    oSmtp.Credentials = new System.Net.NetworkCredential("sialkotem@gmail", "sialkot7868");
+                    oSmtp.EnableSsl = true;
+                    oSmtp.Port = 465;//587//25
+                    oSmtp.Host = "SMTP.Gmail.com";
+                    oSmtp.Send(oEmial);
                 }
+                catch(Exception e)
+                {
+                    ViewBag.Message = "Error Emial Portion"+e.Message;
+                    return View();
+                }
+                
+            }
 
             ORM.FormTable.Add(f);
             ORM.SaveChanges();
